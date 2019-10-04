@@ -8,25 +8,27 @@ function App() {
 
   function calculateResultColor() {
     const redHex = color.substr(0, 2);
-    const blueHex = color.substr(2, 2);
-    const greenHex = color.substr(4, 2);
+    const greenHex = color.substr(2, 2);
+    const blueHex = color.substr(4, 2);
 
-    const newRedHex = Math.floor(parseInt(redHex, 16) * opacity).toString(16);
-    const newBlueHex = Math.floor(parseInt(blueHex, 16) * opacity).toString(16);
-    const newGreenHex = Math.floor(parseInt(greenHex, 16) * opacity).toString(
-      16
-    );
+    function calculateHexWithOpacity(hex) {
+      return Math.floor(parseInt(hex, 16) * opacity).toString(16);
+    }
 
-    return `${newRedHex}${newBlueHex}${newGreenHex}`;
+    const newRedHex = calculateHexWithOpacity(redHex);
+    const newGreenHex = calculateHexWithOpacity(greenHex);
+    const newBlueHex = calculateHexWithOpacity(blueHex);
+
+    return `${newRedHex}${newGreenHex}${newBlueHex}`;
   }
 
   const resultingColor = calculateResultColor();
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-6">
-          <h1>Hex Color with Opacity to Hex Converter</h1>
+      <div className="row justify-content-md-center">
+        <div className="col-4">
+          <h1>Color Converter</h1>
           <form>
             <div className="form-group">
               <label htmlFor="color">Color</label>
@@ -39,6 +41,7 @@ function App() {
                 onChange={e => setColor(e.target.value)}
                 value={color}
               />
+              <div className="swatch" style={{ background: `#${color}` }} />
             </div>
 
             <div className="form-group">
@@ -51,6 +54,10 @@ function App() {
                 placeholder="RRGGBB"
                 onChange={e => setBackgroundColor(e.target.value)}
                 value={backgroundColor}
+              />
+              <div
+                className="swatch"
+                style={{ background: `#${backgroundColor}` }}
               />
             </div>
 
@@ -73,6 +80,8 @@ function App() {
               />
             </div>
 
+            <hr />
+
             <div className="form-group">
               <label htmlFor="result">Resulting Color</label>
               <input
@@ -83,6 +92,10 @@ function App() {
                 placeholder="RRGGBB"
                 value={resultingColor}
                 readOnly
+              />
+              <div
+                className="swatch"
+                style={{ background: `#${resultingColor}` }}
               />
             </div>
           </form>
