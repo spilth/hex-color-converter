@@ -6,21 +6,35 @@ function App() {
   const [backgroundColor, setBackgroundColor] = useState("000000");
   const [opacity, setOpacity] = useState(1);
 
-  function calculateResultColor() {
+  const calculateHexWithOpacity = (hex, backgroundHex) => {
+    const newInteger = parseInt(hex, 16) * opacity;
+    const newBackgroundInteger = parseInt(backgroundHex, 16) * (1 - opacity);
+
+    let sum = newInteger + newBackgroundInteger;
+    let newHex = Math.floor(sum).toString(16);
+
+    if (sum < 16) {
+      newHex = `0${newHex}`;
+    }
+
+    return newHex;
+  };
+
+  const calculateResultColor = () => {
     const redHex = color.substr(0, 2);
     const greenHex = color.substr(2, 2);
     const blueHex = color.substr(4, 2);
 
-    function calculateHexWithOpacity(hex) {
-      return Math.floor(parseInt(hex, 16) * opacity).toString(16);
-    }
+    const backgroundRedHex = backgroundColor.substr(0, 2);
+    const backgroundGreenHex = backgroundColor.substr(2, 2);
+    const backgroundBlueHex = backgroundColor.substr(4, 2);
 
-    const newRedHex = calculateHexWithOpacity(redHex);
-    const newGreenHex = calculateHexWithOpacity(greenHex);
-    const newBlueHex = calculateHexWithOpacity(blueHex);
+    const newRedHex = calculateHexWithOpacity(redHex, backgroundRedHex);
+    const newGreenHex = calculateHexWithOpacity(greenHex, backgroundGreenHex);
+    const newBlueHex = calculateHexWithOpacity(blueHex, backgroundBlueHex);
 
     return `${newRedHex}${newGreenHex}${newBlueHex}`;
-  }
+  };
 
   const resultingColor = calculateResultColor();
 
